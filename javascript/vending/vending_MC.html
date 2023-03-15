@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button onclick="put(100)">100원 투입</button>
+      <button onclick="put(500)">500원 투입</button>
+      <button onclick="put(1000)">1000원 투입</button>
+    </div>
+    <!-- info -->
+    <div>
+      <div>
+        <label for="">음료자판기 저장된 총 금액 :</label>
+        <input type="text" id="saveMoney" value="2000" readonly />
+      </div>
+      <div>
+        <label for="">투입금액 :</label>
+        <input id="resPutmoeny" type="text" value="0" readonly />
+      </div>
+      <div>
+        <label for="">내지갑 :</label>
+        <input id="resUsermoney" type="text" readonly value="10000" />
+      </div>
+    </div>
+    <!--  목록  -->
+    <div id="drinkList"></div>
+
+    <!-- info2 -->
+    <div id="info">
+      <p style="display: none">선택한 음료가 나왔습니다. 잔돈이 나옵니다.</p>
+    </div>
+
+    <script>
+      let userMoney = 10000;
+      let putmoney = 0;
+      let saveMoney = 2000;
+
+      // 항목 불러오기
+      async function resDrinkList() {
+        const drinks = await fetch("http://localhost:3000/drinkList");
+        const JsonDrinks = await drinks.json();
+
+        let arryDrinks = [];
+        for (drink of JsonDrinks) {
+          arryDrinks.push(
+            `<button id="${drink.id}" onclick="selectDrink()" name="buttonPoint" value="${drink.Price}" disabled>${drink.drinkName}(${drink.Price}, ${drink.stock})</button>`
+          );
+        }
+
+        document.querySelector("#drinkList").innerHTML = arryDrinks.join("");
+      }
+
+      // 1~5. 음료자판기에 투입된 총 금액을 방금 고객이 투입한 금액 만큼 더해줍니다.
+      function put(money) {
+        if (userMoney >= money) {
+          putmoney += money;
+          userMoney -= money;
+
+          document.querySelector("#resPutmoeny").value = putmoney;
+          document.querySelector("#resUsermoney").value = userMoney;
+        } else {
+          document.querySelector(
+            "#info"
+          ).innerHTML = `<p>“지갑에 돈이 부족합니다"<p>`;
+        }
+
+        pointButton();
+      }
+
+      // 6. 버튼 활성화
+
+      function pointButton() {
+        const drLi = document.querySelectorAll("[name=buttonPoint]");
+
+        for (dr of drLi) {
+          if (putmoney > dr.value) {
+            document.getElementById(dr.id).disabled = false;
+          } else {
+            document.getElementById(dr.id).disabled = true;
+          }
+        }
+      }
+
+      // 7. 선택
+
+      async function selectDrink() {
+        const id = event.target.id;
+        const target = await fetch(`http://localhost:3000/drinkList/${id}`);
+        const targetData = await target.json();
+        const targetstock = targetData.stock;
+        const resStock = targetstock - 1;
+        const change = putmoney - targetData.Price;
+
+        if (targetstock > 0) {
+          if (saveMoney >= change) {
+            const stockChange = await fetch(
+              `http://localhost:3000/drinkList/${id}`,
+              {
+                method: "put",
+                body: JSON.stringify({
+                  drinkName: targetData.drinkName,
+                  Price: targetData.Price,
+                  stock: resStock,
+                }),
+                headers: { "content-type": "application/json;charset=UTF-8" },
+              }
+            );
+
+            userMoney += change;
+            saveMoney -= change;
+
+            document.querySelector("#resUsermoney").value = userMoney;
+            document.querySelector("#saveMoney").value = saveMoney;
+            document.querySelector("#resPutmoeny").value = 0;
+
+            document.querySelector(
+              "#info"
+            ).innerHTML = `<p>“선택한 음료가 나왔습니다. 잔돈이 나옵니다.”<p>`;
+          } else {
+            document.querySelector(
+              "#info"
+            ).innerHTML = `<p>“음료 자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다.”<p>`;
+          }
+        } else {
+          document.querySelector(
+            "#info"
+          ).innerHTML = `<p>“선택한 음료 재고가 없습니다.”<p>`;
+        }
+      }
+
+      window.addEventListener("load", () => {
+        resDrinkList();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vending Machine</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <style>
+      .colMenu {
+        border: 1px solid black;
+        background-color: white;
+
+        margin: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="logo">
+      <h1 class="text-center mt-5 mb-5">Vending Machine</h1>
+    </div>
+    <div class="container" id="vendingItems">
+      <div class="row">
+        <div class="col-6 bg-info m-3">
+          <h3 class="text-white">Drinks List</h3>
+          <div>
+            <div class="row mt-2 mb-3">
+              <div class="col-3">
+                <img src="./img/coke.png" alt="" />
+                <br />
+                <button class="btn btn-primary" id="coke" value="700" disabled>
+                  Coke <br />700원
+                </button>
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="cokeStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-3">
+                <img src="img/oj.png" class="menuImg" />
+                <br />
+                <button class="btn btn-primary" id="oj" value="1200" disabled>
+                  Orange Juice <br />1200원
+                </button>
+                <div class="fw-bold mt-2">
+                  stock <span id="ojStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-3">
+                <img src="img/coffee.png" class="" />
+                <br />
+                <button
+                  class="btn btn-primary"
+                  id="coffee"
+                  value="500"
+                  disabled
+                >
+                  Coffee <br />500원
+                </button>
+
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="coffeeStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-3">
+                <img src="img/water.png" class="menuImg" />
+                <br />
+                <button class="btn btn-primary" id="water" value="700" disabled>
+                  Water <br />700원
+                </button>
+
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="waterStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2 mb-3">
+              <div class="col-3">
+                <img src="img/corntea.png" class="menuImg" />
+                <br />
+                <button
+                  class="btn btn-primary"
+                  id="corntea"
+                  value="1200"
+                  disabled
+                >
+                  Corn Tea <br />1200원
+                </button>
+
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="cornteaStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-3">
+                <img src="img/milkis.png" class="menuImg" />
+                <br />
+                <button
+                  class="btn btn-primary"
+                  id="milkis"
+                  value="700"
+                  disabled
+                >
+                  Milkis <br />700원
+                </button>
+
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="milkisStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="col-3">
+                <img src="img/trevi.png" class="menuImg" />
+                <br />
+                <button class="btn btn-primary" id="trevi" value="700" disabled>
+                  Trevi<br />700원
+                </button>
+
+                <div class="fw-bold mt-2">
+                  stock
+                  <span id="treviStock" value="5" class="text-danger"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4 bg-primary m-3">
+          <h3 class="text-white">User Input</h3>
+          <div class="row mt-5 mb-3">
+            <div class="col-6 fw-bold">My Wallet</div>
+            <span id="walletMoney"></span> <br />
+          </div>
+          <div class="row mt-5 mb-3">
+            <div class="col-4">
+              <img src="img/100.png" alt="" />
+              <button
+                class="btn btn-success"
+                id="btn1"
+                name=""
+                value="100"
+                disabled
+              >
+                100원 투입
+              </button>
+            </div>
+            <div class="col-4">
+              <img src="img/500.png" alt="" />
+              <button
+                class="btn btn btn-success"
+                id="btn2"
+                name=""
+                value="500"
+                disabled
+              >
+                500원 투입
+              </button>
+            </div>
+            <div class="col-4">
+              <img src="img/1000.png" alt="" />
+              <button
+                class="btn btn-success"
+                id="btn3"
+                name=""
+                value="1000"
+                disabled
+              >
+                1000원 투입
+              </button>
+            </div>
+          </div>
+          <div class="row mt-5 mb-3">
+            <div class="col-6 fw-bold">Inserted Money</div>
+            <span id="insertMoney"></span> <br />
+          </div>
+          <div class="row mb-3">
+            <div class="col-6 fw-bold">Current Money</div>
+            <span id="totalMoney"></span> <br />
+          </div>
+          <div class="text-center mt-5">
+            <button class="btn btn-success" id="return">반환</button>
+          </div>
+        </div>
+
+        <textarea style="width: 900px; height: 150px" class="txt fw-bold">
+Message</textarea
+        >
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let totalMoney = 1000;
+      let insertMoney = 0;
+      let walletMoney = 10000;
+
+      let currency_100s = Number(document.getElementById("btn1").value);
+      let currency_500s = Number(document.getElementById("btn2").value);
+      let currency_1000s = Number(document.getElementById("btn3").value);
+
+      let cokePrice = Number(document.getElementById("coke").value);
+      let ojPrice = Number(document.getElementById("oj").value);
+      let coffeePrice = Number(document.getElementById("coffee").value);
+      let waterPrice = Number(document.getElementById("water").value);
+      let cornteaPrice = Number(document.getElementById("corntea").value);
+      let milkisPrice = Number(document.getElementById("milkis").value);
+      let treviPrice = Number(document.getElementById("trevi").value);
+
+      let cokeStock = 5;
+      let ojStock = 5;
+      let coffeeStock = 5;
+      let waterStock = 5;
+      let cornteaStock = 5;
+      let milkisStock = 5;
+      let treviStock = 5;
+
+      buttonActive();
+      buttonInactive();
+
+      document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+      document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+      document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+      document.querySelector("#cokeStock").innerHTML = cokeStock;
+      document.querySelector("#ojStock").innerHTML = ojStock;
+      document.querySelector("#coffeeStock").innerHTML = coffeeStock;
+      document.querySelector("#waterStock").innerHTML = waterStock;
+      document.querySelector("#cornteaStock").innerHTML = cornteaStock;
+      document.querySelector("#milkisStock").innerHTML = milkisStock;
+      document.querySelector("#treviStock").innerHTML = treviStock;
+
+      // button 함수
+      function click_btn1() {
+        totalMoney = totalMoney + currency_100s;
+        insertMoney = insertMoney + currency_100s;
+        walletMoney = walletMoney - currency_100s;
+
+        let msg = `${insertMoney}원이 투입되었습니다
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+당신의 지갑에는 ${walletMoney}이 남아있습니다.`;
+        document.querySelector(".txt").value = msg;
+
+        document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+        document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+        document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+
+        if (walletMoney - 100 < 0) {
+          Swal.fire("지갑에 돈이 부족합니다.");
+          return;
+        }
+
+        buttonActive();
+        buttonInactive();
+      }
+
+      function click_btn2() {
+        totalMoney = totalMoney + currency_500s;
+        insertMoney = insertMoney + currency_500s;
+        walletMoney = walletMoney - currency_500s;
+
+        let msg = `${insertMoney}원이 투입되었습니다
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+당신의 지갑에는 ${walletMoney}이 남아있습니다.`;
+        document.querySelector(".txt").value = msg;
+
+        document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+        document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+        document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+
+        if (walletMoney - 500 < 0) {
+          Swal.fire("지갑에 돈이 부족합니다.");
+          return;
+        }
+        buttonActive();
+        buttonInactive();
+      }
+
+      function click_btn3() {
+        totalMoney = totalMoney + currency_1000s;
+        insertMoney = insertMoney + currency_1000s;
+        walletMoney = walletMoney - currency_1000s;
+
+        let msg = `${insertMoney}원이 투입되었습니다
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+당신의 지갑에는 ${walletMoney}이 남아있습니다.`;
+        document.querySelector(".txt").value = msg;
+
+        document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+        document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+        document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+
+        if (walletMoney - 1000 < 0) {
+          Swal.fire("지갑에 돈이 부족합니다.");
+
+          return;
+        }
+        buttonActive();
+        buttonInactive();
+      }
+      function return_btn() {
+        if (totalMoney <= 0) {
+          Swal.fire("반환 될 돈이 없습니다.");
+        } else {
+          walletMoney = walletMoney + totalMoney;
+          totalMoney = 0;
+          insertMoney = 0;
+
+          let msgReturn = `자판기에 남아있던 돈이 고객님의 지갑으로 이동하였습니다.`;
+          document.querySelector(".txt").value = msgReturn;
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+      }
+
+      function click_coke() {
+        if (totalMoney < cokePrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - cokePrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg1 = `콜라를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg1;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (cokeStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          cokeStock = cokeStock - 1;
+        }
+
+        document.querySelector("#cokeStock").innerHTML = cokeStock;
+      }
+
+      function click_oj() {
+        if (totalMoney < ojPrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - ojPrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg2 = `오렌지 주스를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg2;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (ojStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          ojStock = ojStock - 1;
+        }
+
+        document.querySelector("#ojStock").innerHTML = ojStock;
+      }
+
+      function click_coffee() {
+        if (totalMoney < coffeePrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - coffeePrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg3 = `커피를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg3;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (coffeeStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          coffeeStock = coffeeStock - 1;
+        }
+
+        document.querySelector("#coffeeStock").innerHTML = coffeeStock;
+      }
+
+      function click_water() {
+        if (totalMoney < waterPrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - waterPrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg4 = `물을 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg4;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (waterStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          waterStock = waterStock - 1;
+        }
+
+        document.querySelector("#waterStock").innerHTML = waterStock;
+      }
+
+      function click_corntea() {
+        if (totalMoney < cornteaPrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - cornteaPrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg5 = `콜라를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg5;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (cornteaStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          cornteaStock = cornteaStock - 1;
+        }
+
+        document.querySelector("#cornteaStock").innerHTML = cornteaStock;
+      }
+
+      function click_milkis() {
+        if (totalMoney < milkisPrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - cokePrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg6 = `콜라를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg6;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (milkisStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          milkisStock = milkisStock - 1;
+        }
+
+        document.querySelector("#milkisStock").innerHTML = milkisStock;
+      }
+
+      function click_trevi() {
+        if (totalMoney < treviPrice) {
+          Swal.fire(
+            "음료자판기에 잔돈이 부족해서 선택한 음료를 구매할 수 없습니다."
+          );
+        } else {
+          totalMoney = totalMoney - treviPrice;
+          insertMoney = insertMoney - insertMoney;
+          walletMoney = walletMoney;
+
+          let msg7 = `콜라를 구매하였습니다.
+현재 음료자판기에는  ${totalMoney}원이 있습니다.
+반환 버튼을 누르면 자판기에 남아있는 돈이 지갑으로 이동합니다.
+`;
+          document.querySelector(".txt").value = msg7;
+
+          buttonActive();
+
+          document.querySelector("#totalMoney").innerHTML = totalMoney + "원";
+          document.querySelector("#insertMoney").innerHTML = insertMoney + "원";
+          document.querySelector("#walletMoney").innerHTML = walletMoney + "원";
+        }
+
+        if (treviStock <= 0) {
+          Swal.fire("재고가 없습니다.");
+        } else {
+          treviStock = treviStock - 1;
+        }
+
+        document.querySelector("#treviStock").innerHTML = treviStock;
+      }
+
+      const btn1 = document.getElementById("btn1");
+      btn1.addEventListener("click", click_btn1);
+
+      const btn2 = document.getElementById("btn2");
+      btn2.addEventListener("click", click_btn2);
+
+      const btn3 = document.getElementById("btn3");
+      btn3.addEventListener("click", click_btn3);
+
+      const returnBtn = document.getElementById("return");
+      returnBtn.addEventListener("click", return_btn);
+
+      const coke = document.getElementById("coke");
+      coke.addEventListener("click", click_coke);
+
+      const oj = document.getElementById("oj");
+      oj.addEventListener("click", click_oj);
+
+      const coffee = document.getElementById("coffee");
+      coffee.addEventListener("click", click_coffee);
+
+      const water = document.getElementById("water");
+      water.addEventListener("click", click_water);
+
+      const corntea = document.getElementById("corntea");
+      corntea.addEventListener("click", click_corntea);
+
+      const milkis = document.getElementById("milkis");
+      milkis.addEventListener("click", click_milkis);
+
+      const trevi = document.getElementById("trevi");
+      trevi.addEventListener("click", click_trevi);
+
+      function buttonActive() {
+        if (totalMoney >= 1200) {
+          document.querySelector("#coke").disabled = false;
+          document.querySelector("#oj").disabled = false;
+          document.querySelector("#coffee").disabled = false;
+          document.querySelector("#water").disabled = false;
+          document.querySelector("#corntea").disabled = false;
+          document.querySelector("#milkis").disabled = false;
+          document.querySelector("#trevi").disabled = false;
+        } else if (totalMoney >= 1000) {
+          document.querySelector("#coke").disabled = false;
+          document.querySelector("#coffee").disabled = false;
+          document.querySelector("#water").disabled = false;
+          document.querySelector("#milkis").disabled = false;
+          document.querySelector("#trevi").disabled = false;
+        } else if (totalMoney >= 700) {
+          document.querySelector("#coke").disabled = false;
+          document.querySelector("#coffee").disabled = false;
+          document.querySelector("#water").disabled = false;
+          document.querySelector("#milkis").disabled = false;
+        } else if (totalMoney >= 500) {
+          document.querySelector("#coffee").disabled = false;
+        } else {
+          document.querySelector("#coke").disabled = true;
+          document.querySelector("#oj").disabled = true;
+          document.querySelector("#coffee").disabled = true;
+          document.querySelector("#water").disabled = true;
+          document.querySelector("#corntea").disabled = true;
+          document.querySelector("#milkis").disabled = true;
+          document.querySelector("#trevi").disabled = true;
+        }
+      }
+
+      function buttonInactive() {
+        if (walletMoney > 1000) {
+          document.querySelector("#btn3").disabled = false;
+        }
+
+        if (walletMoney > 500) {
+          document.querySelector("#btn2").disabled = false;
+        }
+        if (walletMoney > 100) {
+          document.querySelector("#btn1").disabled = false;
+        }
+      }
+    </script>
+  </body>
+</html>

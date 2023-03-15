@@ -1,0 +1,63 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "drinkList": [
+    {
+      "id": "w63b8e6a318f9ba772a6e57c4",
+      "drinkName": "코카콜라",
+      "Price": 700,
+      "stock": 5
+    },
+    {
+      "id": "w63b8e6a38c2ee7e81b436b2d",
+      "drinkName": "오렌지주스",
+      "Price": 1200,
+      "stock": 5
+    },
+    {
+      "drinkName": "커피",
+      "Price": 500,
+      "stock": 3,
+      "id": "w63b8e6a34579ced0187bffd1"
+    },
+    {
+      "drinkName": "물",
+      "Price": 700,
+      "stock": 4,
+      "id": "w63b8e6a3959569e0bcde7d63"
+    },
+    {
+      "id": "w63b8e6a39f00230c8a8e14a1",
+      "drinkName": "옥수수수염차",
+      "Price": 1200,
+      "stock": 5
+    },
+    {
+      "drinkName": "밀키스",
+      "Price": 700,
+      "stock": 3,
+      "id": "w63b8e6a35854abd8c795f700"
+    },
+    {
+      "id": "w63b8e6a3d58f6b16aba7af20",
+      "drinkName": "트레비",
+      "Price": 1000,
+      "stock": 5
+    }
+  ]
+}

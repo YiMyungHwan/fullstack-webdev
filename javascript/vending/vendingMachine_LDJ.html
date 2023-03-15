@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .col-4 {
+        flex: 33.3333%;
+        margin-bottom: 10px;
+      }
+
+      .col-8 {
+        flex: 66.6666%;
+        margin-bottom: 10px;
+      }
+
+      .space {
+        padding: 5px;
+        margin: 5px;
+      }
+
+      .info-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .info-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .inline {
+        display: inline;
+      }
+
+      .output {
+        position: relative;
+        top: 50px;
+        height: 100px;
+        width: 200px;
+        left: 40%;
+        border: black 3px solid;
+        line-height: 100px;
+      }
+
+      .outputLog {
+        position: relative;
+        top: 100px;
+        height: 200px;
+        width: 80%;
+        left: 40%;
+        border: black 3px solid;
+        line-height: 40px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-8 info-column">
+        <div class="info-row" id="drinkList"></div>
+        <div class="info-row output" id="output">음료 나오는 곳</div>
+        <div class="outputLog" id="outputLog"></div>
+      </div>
+
+      <div class="col-4">
+        <div>
+          <button onclick="insertcoin(100);">100원</button>
+          <button onclick="insertcoin(500);">500원</button>
+          <button onclick="insertcoin(1000);">1000원</button>
+        </div>
+        <div class="info">
+          <div class="inline">투입금액종류 :</div>
+          <div class="inline" id="clickedCoin"></div>
+        </div>
+        <div class="info">
+          <div class="inline">잔액 :</div>
+          <div class="inline" id="insertedCoin"></div>
+        </div>
+        <div class="info">
+          <div class="inline">지갑금액 :</div>
+          <div class="inline" id="walletCoin"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const drinkList = [
+        { id: '코카콜라', name: '코카콜라', price: 700, stock: 5 },
+        { id: '오렌지주스', name: '오렌지주스', price: 1200, stock: 5 },
+        { id: '커피', name: '커피', price: 500, stock: 5 },
+        { id: '물', name: '물', price: 700, stock: 5 },
+        { id: '옥수수수염차', name: '옥수수수염차', price: 1200, stock: 5 },
+        { id: '밀키스', name: '밀키스', price: 700, stock: 5 },
+        { id: '트래비', name: '트래비', price: 1000, stock: 5 },
+      ];
+
+      function renderDrinkList() {
+        const h = [];
+        for (drink of drinkList) {
+          h.push(
+            `<button class="space" id=${drink.id} onclick="countStock();"><div>${drink.name}</div><div>가격 : ${drink.price} 원</div><div>재고 : ${drink.stock} 개</div></button>`
+          );
+        }
+        document.querySelector('#drinkList').innerHTML = h.join('');
+
+        for (drink of drinkList) {
+          if (drink.stock == 0) {
+            document
+              .querySelector(`#${drink.id}`)
+              .setAttribute('style', 'background-color: red;');
+          }
+        }
+      }
+      renderDrinkList();
+
+      let insertedCoin = 0;
+      let totalCoin = 10000;
+      let walletCoin = totalCoin - insertedCoin;
+      let kindOfCoin = null;
+
+      function insertcoin(coin) {
+        kindOfCoin = coin;
+        insertedCoin += kindOfCoin;
+        walletCoin = totalCoin - insertedCoin;
+
+        // 가용금액 확인하고 마이너스된 금액 원복
+        if (walletCoin < 0) {
+          alert('지갑에 충전할 금액이 부족합니다');
+          insertedCoin = insertedCoin - kindOfCoin;
+          walletCoin = walletCoin + kindOfCoin;
+          return renderCoin();
+        }
+
+        renderCoin();
+        availableDrink();
+      }
+
+      function renderCoin() {
+        // console.log(coin,insertedCoin,walletCoin)
+
+        document.querySelector('#clickedCoin').innerHTML = kindOfCoin + '원';
+        document.querySelector('#insertedCoin').innerHTML = insertedCoin + '원';
+        document.querySelector('#walletCoin').innerHTML = walletCoin + '원';
+
+        // const drinkBtn = document.querySelectorAll('[name = drinkCheck]');
+      }
+
+      function availableDrink() {
+        for (drink of drinkList) {
+          if (insertedCoin >= drink.price && drink.stock > 0) {
+            document
+              .querySelector(`#${drink.id}`)
+              .setAttribute('style', 'background-color: aqua;');
+          }
+        }
+      }
+
+      function countStock() {
+        // console.log(event.target.parentNode.getAttribute('id'));
+        let drinkId = event.target.parentNode.getAttribute('id');
+        // console.log(event.target);
+
+        if (drinkId === 'drinkList') {
+          drinkId = event.target.getAttribute('id');
+        }
+
+        for (drink of drinkList) {
+          if (drink.id === `${drinkId}`) {
+            drink.stock -= 1;
+            insertedCoin -= drink.price;
+            totalCoin -= drink.price;
+            if (drink.stock < 0) {
+              drink.stock += 1;
+              insertedCoin += drink.price;
+              totalCoin += drink.price;
+              return alert('해당 제품의 재고가 부족합니다');
+            } else if (insertedCoin < 0) {
+              drink.stock += 1;
+              insertedCoin += drink.price;
+              totalCoin += drink.price;
+              return alert('사용가능 금액이 부족합니다');
+            }
+            renderDrinkList();
+            renderCoin();
+            availableDrink();
+            output(drinkId);
+            log(drinkId);
+          }
+        }
+      }
+
+      function output(drinkId) {
+        document.querySelector('#output').innerHTML = drinkId;
+        document
+          .querySelector('#output')
+          .setAttribute('style', 'background-color: beige;');
+        setTimeout(() => {
+          document
+            .querySelector('#output')
+            .removeAttribute('style', 'background-color: beige;');
+          document.querySelector('#output').innerHTML = '음료 나오는 곳';
+        }, 1000);
+      }
+
+      let i = 1;
+      function log(drinkId) {
+        document
+          .querySelector('#outputLog')
+          .insertAdjacentHTML(
+            'beforeend',
+            `<div>${i}번 주문 : ${drinkId} 나왔습니다</div><div>잔액은 ${insertedCoin}입니다</div><div>지갑금액은 ${walletCoin}입니다</div>`
+          );
+        i = i + 1;
+      }
+    </script>
+  </body>
+</html>

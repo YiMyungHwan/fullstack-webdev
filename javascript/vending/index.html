@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자판기</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .active {
+        background-color: greenyellow;
+      }
+
+      .deactive {
+        cursor: not-allowed !important;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="machine">
+      <h2 class="header">음료수 자판기🍹</h2>
+      <section class="drink-box container">
+        <div class="label">음료수</div>
+        <div class="drinks"></div>
+      </section>
+
+      <section class="input-box container">
+        <div class="label">사용자 입력</div>
+        <div class="section balance">
+          <div class="col-6 text-balance">내 지갑</div>
+          <div class="col-6 customer-balance money"></div>
+        </div>
+        <div class="section">
+          <div class="coins">
+            <div>
+              <div id="coin-100" class="coin-img"></div>
+              <button class="coin" value="100">100원 투입</button>
+            </div>
+            <div>
+              <div id="coin-500" class="coin-img"></div>
+              <button class="coin" value="500">500원 투입</button>
+            </div>
+            <div>
+              <div id="coin-1000" class="coin-img"></div>
+              <button class="coin" value="1000">1,000원 투입</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section balance">
+          <div class="text-balance col-6">투입금액</div>
+          <div class="display-balance money col-6"></div>
+        </div>
+
+        <div class="section balance">
+          <div class="text-balance col-6">자판기에 저장된 금액</div>
+          <div class="machine-wallet money col-6"></div>
+        </div>
+        <div class="section">
+          <button class="return">잔돈반환</button>
+        </div>
+      </section>
+
+      <section class="section output-box container">
+        <div class="label">메세지</div>
+        <div class="output" style="overflow-y: auto">
+          투입 금액(<strong>100원 / 500원 / 10,000원</strong>)을 선택해주세요.
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const data = {
+        drinks: [
+          { id: 1, name: "코카콜라", price: 700, stock: 5 },
+          { id: 2, name: "오렌지 주스", price: 1200, stock: 5 },
+          { id: 3, name: "커피", price: 500, stock: 5 },
+          { id: 4, name: "물", price: 700, stock: 5 },
+          { id: 5, name: "옥수수수염차", price: 1200, stock: 5 },
+          { id: 6, name: "밀키스", price: 700, stock: 5 },
+          { id: 7, name: "트래비", price: 1000, stock: 5 },
+        ],
+        customerBalance: 10000,
+        machineWallet: 1000,
+        inputBalance: 0,
+      };
+
+      const renderDrinkList = () => {
+        const { drinks } = data;
+        const drinkContainer = document.querySelector(".drinks");
+        const drinkHtml = [];
+        drinks.forEach((drink) => {
+          const { id, name, price, stock } = drink;
+          const isActive =
+            price <= data.inputBalance &&
+            stock > 0 &&
+            data.inputBalance - price <= data.machineWallet
+              ? true
+              : false;
+
+          drinkHtml.push(`
+              <div class="drink" data-id="${id}">
+                <div class="drink-img" id="img-${id}"></div>
+                <button class="drink-button ${
+                  isActive ? "active" : "deactive"
+                }" ${!isActive ? "disabled" : ""} onclick="getDrink(${id})">
+                  <p>${name}</p>
+                  <p>${price}원</p>
+                  <p>${stock}개</p>
+                </button>
+              </div>
+              `);
+        });
+        drinkContainer.innerHTML = drinkHtml.join("");
+      };
+
+      const renderCustomerBalance = () => {
+        const { customerBalance } = data;
+        const customerBalanceContainer =
+          document.querySelector(".customer-balance");
+        customerBalanceContainer.innerHTML = customerBalance;
+      };
+
+      const renderInputBalance = () => {
+        const { inputBalance } = data;
+        const inputBalanceContainer =
+          document.querySelector(".display-balance");
+        inputBalanceContainer.innerHTML = inputBalance;
+      };
+
+      const renderMachineWallet = () => {
+        const { machineWallet } = data;
+        const machineWalletContainer =
+          document.querySelector(".machine-wallet");
+        machineWalletContainer.innerHTML = machineWallet;
+      };
+
+      const printOutput = (message) => {
+        const outputContainer = document.querySelector(".output");
+        outputContainer.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
+      };
+
+      const insertCoin = (coin) => {
+        const { inputBalance, customerBalance, machineWallet } = data;
+        if (customerBalance < coin) {
+          printOutput("잔액이 부족합니다.");
+          return;
+        }
+
+        data.inputBalance += coin;
+        data.customerBalance -= coin;
+        data.machineWallet += coin;
+        renderInputBalance();
+        renderCustomerBalance();
+        renderMachineWallet();
+        renderDrinkList();
+        printOutput(`${coin}원이 투입되었습니다.`);
+      };
+
+      const returnCoin = () => {
+        const { inputBalance, customerBalance, machineWallet } = data;
+        if (inputBalance === 0) {
+          printOutput("투입된 금액이 없습니다.");
+          return;
+        }
+
+        data.inputBalance = 0;
+        data.customerBalance += inputBalance;
+        data.machineWallet -= inputBalance;
+        renderInputBalance();
+        renderCustomerBalance();
+        renderMachineWallet();
+        renderDrinkList();
+        printOutput(`${inputBalance}원이 반환되었습니다.`);
+      };
+
+      const bindEvent = () => {
+        const coinButtons = document.querySelectorAll(".coin");
+        coinButtons.forEach((coinButton) => {
+          coinButton.addEventListener("click", (e) => {
+            const coin = e.target.value;
+            insertCoin(Number(coin));
+          });
+        });
+
+        const returnButton = document.querySelector(".return");
+        returnButton.addEventListener("click", () => {
+          returnCoin();
+        });
+      };
+
+      const getDrink = (id) => {
+        const { inputBalance, customerBalance, machineWallet } = data;
+        const drink = data.drinks.find((drink) => drink.id === id);
+        const { name, price, stock } = drink;
+
+        data.inputBalance -= price;
+        drink.stock -= 1;
+        renderInputBalance();
+        renderCustomerBalance();
+        renderMachineWallet();
+        renderDrinkList();
+        printOutput(`${name}가 나왔습니다.`);
+      };
+
+      window.addEventListener("DOMContentLoaded", () => {
+        renderDrinkList();
+        renderCustomerBalance();
+        renderInputBalance();
+        renderMachineWallet();
+        bindEvent();
+      });
+    </script>
+  </body>
+</html>

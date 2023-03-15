@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <input type="email" id="id" value="" />
+    <button>조회</button>
+    <script>
+      let userId = "abcd_ef.gh_81";
+      const regexpID = /^([a-z]+\d*)+\w([a-z]+d*)\.([a-z]+\d*)\w{5,15}$/;
+      console.log(regexpID.test(userId));
+
+      function checkUserId() {
+        const userId = document.getElementById("id").value;
+        console.log(userId);
+        if (!regexpID.test(userId)) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>question</title>
+    <style></style>
+  </head>
+  <body>
+    <input type="text" name="" id="userId" value="" />
+    <button onclick="checkUserId();">아이디 저장</button>
+
+    <script>
+      const regexpId5 =
+        /^([a-z]+\d*)(\_?[a-z\d]+)*(\_?\.?|\.?\_?)[a-z\d]+(\_?[a-z\d]+)*$/;
+
+      const regexpnum = /^.{5,15}$/;
+
+      function checkUserId() {
+        let userId = document.getElementById("userId").value;
+
+        let userIdNumCheck = regexpnum.test(userId);
+        let userIdFormCheck = regexpId5.test(userId);
+        if (userIdNumCheck) {
+          if (userIdFormCheck) {
+            alert(userIdFormCheck);
+          } else {
+            alert(userIdFormCheck);
+          }
+        } else {
+          alert(userIdNumCheck);
+        }
+      }
+    </script>
+  </body>
+</html>
